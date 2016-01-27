@@ -75,6 +75,15 @@ class AuthCollector extends DataCollector implements Renderable
             }
         }
 
+        $reader = function ($object) {
+            $value = \Closure::bind(function() {
+                return $this->attributes;
+            }, $object, $object)->__invoke();
+
+            return $value;
+        };
+        $user = $reader($user, 'attributes');
+
         return array(
             'name' => $identifier,
             'user' => $user instanceof Arrayable ? $user->toArray() : $user,
